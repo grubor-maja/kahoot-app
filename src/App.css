@@ -44,7 +44,7 @@ body {
 }
 
 
-/* JoinGamePage */
+/* Home Page */
 
 .homePageContainer {
   background-color: rgb(88, 50, 88);
@@ -71,4 +71,31 @@ body {
 .homePageButton:hover {
   background-color: rgb(101, 71, 101);
 
+}
+.joinGameContainer {
+  display: flex;
+  margin:15% auto;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.textField {
+  border: none;
+  outline: none;
+  width: 15%;
+  padding: 0.5rem;
+}
+.buttonNext {
+  padding: 0.5rem 2rem;
+  font-size: 1.2rem;
+  background-color: rgb(88, 190, 25);
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+.buttonNext:hover {
+  background-color: rgb(121, 175, 28);
+  transform: scale(1.2);
 }
