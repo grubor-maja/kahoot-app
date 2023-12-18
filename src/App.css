@@ -46,15 +46,29 @@ body {
 
 /* JoinGamePage */
 
-.joinGameContainer {
+.homePageContainer {
   background-color: rgb(88, 50, 88);
-  padding: 5%;
-  width: fit-content;
+  
+  width: 25%;
   margin: 10% auto;
   cursor: pointer;
   transition: 0.5s ease-in-out;
 }
-.joinGameContainer:hover {
+.homePageContainer:hover {
   background-color: rgb(101, 71, 101);
   transform: scale(1.2);
+}
+.homePageButton {
+  background-color: rgb(88, 50, 88);
+
+  width: 100% ;  
+  padding: 10% 30%;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+.homePageButton:hover {
+  background-color: rgb(101, 71, 101);
+
 }
