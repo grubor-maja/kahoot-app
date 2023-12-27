@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
+
 function QuestionsPage() {
   const [quizData, setQuizData] = useState({
     question: '',
     answers: [],
   });
+
 
 
   const handleAnswerClick = (selectedAnswer) => {
