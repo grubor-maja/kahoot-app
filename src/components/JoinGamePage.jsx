@@ -7,7 +7,7 @@ function JoinGamePage({onUsernameSubmit}) {
     const navigate = useNavigate();
     const handleClick = () => {
         onUsernameSubmit(username);
-        navigate('/questions');
+        navigate('/startgame');
     }
    
 
