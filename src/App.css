@@ -6,6 +6,11 @@
 body {
   background-color: rgb(39, 4, 39);
   color: white;
+  background-image: url('./images/question2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Montserrat', sans-serif;
+
 }
 
 .App-logo {
@@ -47,29 +52,34 @@ body {
 /* Home Page */
 
 .homePageContainer {
-  background-color: rgb(88, 50, 88);
-  
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
   width: 25%;
-  margin: 10% auto;
+  height: 100vh;
   cursor: pointer;
   transition: 0.5s ease-in-out;
+  
+  
 }
-.homePageContainer:hover {
-  background-color: rgb(101, 71, 101);
-  transform: scale(1.2);
-}
-.homePageButton {
-  background-color: rgb(88, 50, 88);
 
+.homePageButton {
+  background-color: rgb(88, 190, 25);
+
+  font-size: 1.2rem;
+  text-transform: uppercase;
   width: 100% ;  
-  padding: 10% 30%;
+  padding: 5% 5%;
   color: white;
   border: none;
   cursor: pointer;
   transition: 0.5s ease-in-out;
 }
 .homePageButton:hover {
-  background-color: rgb(101, 71, 101);
+  background-color: rgba(88, 190, 25, 0.483);
+  transform: scale(1.2);
 
 }
 .joinGameContainer {
@@ -90,6 +100,7 @@ body {
   padding: 0.5rem 2rem;
   font-size: 1.2rem;
   background-color: rgb(88, 190, 25);
+  border-radius: 5%;
   color: white;
   border: none;
   outline: none;

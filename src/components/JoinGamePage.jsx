@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Button from './Button';
 
 function JoinGamePage({onUsernameSubmit}) {
     const [username, setUsername] = useState('');
@@ -18,7 +19,7 @@ function JoinGamePage({onUsernameSubmit}) {
             <h2  className = "usernameLabel">Enter username: </h2>
             <input type="text" className = "textField" value = {username} onChange = {(e) => setUsername(e.target.value)}/>
         <br />
-        <button className = "buttonNext" onClick={handleClick}>Next</button>
+        <Button onClick={handleClick} title= {'Next'} ></Button>
         </div>
 
         {/* <label htmlFor="">Select number of questions</label>
