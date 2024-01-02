@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
-import Question from './Question';
 
 function QuestionsPage() {
   const [quizData, setQuizData] = useState({
     question: '',
     answers: [],
+    correctAnswer: '',
   });
 
-  const handleAnswerClick = (selectedAnswer) => {
-    console.log(`Izabran odgovor: ${selectedAnswer}`);
-    if(selectedAnswer==quizData.correctAnswer) {
-    
-    } else {
-      selectedAnswer.className='incorrect'
-    }
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const handleAnswerClick = (answer) => {
+    console.log(`Izabran odgovor: ${answer}`);
+    setSelectedAnswer(answer);
   };
 
   const fetchData = async () => {
@@ -27,17 +25,18 @@ function QuestionsPage() {
 
       setQuizData({
         question: randomQuestion.question.text,
-        answers: [...randomQuestion.incorrectAnswers, randomQuestion.correctAnswer],
+        answers: randomQuestion.incorrectAnswers.concat(randomQuestion.correctAnswer),
+        correctAnswer: randomQuestion.correctAnswer,
       });
+
+      // Reset selected answer on new question
+      setSelectedAnswer(null);
     } catch (error) {
       console.error('Error fetching quiz data:', error);
     }
   };
 
   const navigate = useNavigate();
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const [brojac, setBrojac] = useState(0);
 
@@ -57,9 +56,14 @@ function QuestionsPage() {
       </div>
       <div className="answersContainer">
         {quizData.answers.map((answer, index) => (
-          <Question key={index} answer={answer} handleAnswerClick={handleAnswerClick} />
+          <div
+            key={index}
+            className={`answerRectangle ${selectedAnswer === answer ? (answer === quizData.correctAnswer ? 'correct' : 'incorrect') : ''}`}
+            onClick={() => handleAnswerClick(answer)}
+          >
+            {answer}
+          </div>
         ))}
-
       </div>
       <div className="buttonContainer">
         <Button onClick={handleNextClick} title={'Next'}></Button>
