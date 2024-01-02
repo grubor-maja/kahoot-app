@@ -120,6 +120,11 @@ body {
   
   margin: 0;
 }
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .answersContainer {
   margin: 3%;
   display: grid;
@@ -136,6 +141,13 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+.correct {
+  background-color: rgb(121, 175, 28);
+
+}
+.incorrect {
+  background-color: red;
 }
 .questionHeading {
   margin:10% auto;
