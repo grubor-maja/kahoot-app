@@ -12,7 +12,7 @@ function HomePage() {
     return (
         <div className="homePageContainer">
             <button className="homePageButton" onClick = {handleClick}>
-            <h1>Join game</h1>
+            <h1>Join <br />game</h1>
             </button>
             
         </div>
