@@ -1,4 +1,4 @@
-// App.js
+
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import JoinGamePage from './components/JoinGamePage';
