@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
+import Counter from './Counter';
+
 
 function QuestionsPage() {
   const [quizData, setQuizData] = useState({
@@ -10,10 +12,17 @@ function QuestionsPage() {
   });
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-
+  const [selected, setSelected] = useState(false);
+  const [brojac, setBrojac] = useState(0);
+  const navigate = useNavigate();
+;
   const handleAnswerClick = (answer) => {
-    console.log(`Izabran odgovor: ${answer}`);
-    setSelectedAnswer(answer);
+    if(!selected) {
+      console.log(`Izabran odgovor: ${answer}`);
+      setSelectedAnswer(answer);
+      setSelected(true);
+    }
+
   };
 
   const fetchData = async () => {
@@ -36,9 +45,9 @@ function QuestionsPage() {
     }
   };
 
-  const navigate = useNavigate();
+ 
 
-  const [brojac, setBrojac] = useState(0);
+ 
 
   const handleNextClick = () => {
     setBrojac((prevBrojac) => prevBrojac + 1);
@@ -52,7 +61,8 @@ function QuestionsPage() {
   return (
     <>
       <div className='questionBody'>
-        <h2 className='questionHeading'>{quizData.question} {brojac}</h2>
+        <h2 className='questionHeading'>{quizData.question}<Counter brojac={brojac}></Counter></h2>
+        
       </div>
       <div className="answersContainer">
         {quizData.answers.map((answer, index) => (
