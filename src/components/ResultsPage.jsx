@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-function ResultsPage({username}) {
-    const result=9;
+function ResultsPage({username, result,resetResult}) {
+    
     const navigate = useNavigate();
-    const handleClick = () => {       
+    const handleClick = () => {
+        resetResult();       
         navigate('/questions');
     }    
     return ( 
