@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Counter from './Counter';
+import useCountdown from './useCountdown';
 
 
 function QuestionsPage() {
@@ -13,7 +14,8 @@ function QuestionsPage() {
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [selected, setSelected] = useState(false);
-  const [brojac, setBrojac] = useState(0);
+  const [brojac, setBrojac] = useState(1);
+  const [timeLeft, setTimeLeft] = useState(null);
   const navigate = useNavigate();
 ;
   const handleAnswerClick = (answer) => {
@@ -24,6 +26,17 @@ function QuestionsPage() {
     }
 
   };
+
+  const handleCountdownFinish = () => {
+    if (!selected) {
+      console.log('Vreme je isteklo!');
+      setTimeLeft(0);
+      pauseCountdown();
+      handleNextClick();
+    }
+  };
+
+  const { time, reset: resetCountdown, pause: pauseCountdown } = useCountdown(10, handleCountdownFinish);
 
   const fetchData = async () => {
     try {
@@ -40,6 +53,7 @@ function QuestionsPage() {
 
       // Reset selected answer on new question
       setSelectedAnswer(null);
+      setTimeLeft(null);
     } catch (error) {
       console.error('Error fetching quiz data:', error);
     }
@@ -61,7 +75,7 @@ function QuestionsPage() {
   return (
     <>
       <div className='questionBody'>
-        <h2 className='questionHeading'>{quizData.question}<Counter brojac={brojac}></Counter></h2>
+        <h2 className='questionHeading'>{quizData.question}<Counter brojac={brojac}></Counter><div>{time}s</div></h2>
         
       </div>
       <div className="answersContainer">
