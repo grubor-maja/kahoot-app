@@ -22,9 +22,7 @@ function JoinGamePage({onUsernameSubmit}) {
         <Button onClick={handleClick} title= {'Next'} ></Button>
         </div>
 
-        {/* <label htmlFor="">Select number of questions</label>
-        <input type="radio" />
-        <input type="radio" /> */}
+
         </>
      );
 }

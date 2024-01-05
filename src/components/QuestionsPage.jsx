@@ -1,4 +1,3 @@
-// QuestionsPage.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
@@ -48,7 +47,7 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier }) => {
       setSelected(true);
       
       console.log('Time left: '+time);
-      let scoreMultiplier = answer === quizData.correctAnswer ? 10 : 0; // Ako je odgovor tačan, scoreMultiplier je 10, inače 0
+      let scoreMultiplier = answer === quizData.correctAnswer ? 10 : 0;
       console.log('Score multiplier:   '+scoreMultiplier);
       pauseCountdown();
   
