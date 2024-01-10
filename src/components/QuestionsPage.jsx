@@ -68,7 +68,10 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier }) => {
       const response = await fetch('https://the-trivia-api.com/v2/questions');
       const data = await response.json();
 
-      const randomQuestion = data[Math.floor(Math.random() * data.length)];
+      const mediumDifficultyQuestions = data.filter(question => question.difficulty === 'medium' || question.difficulty === 'easy');
+
+
+      const randomQuestion = mediumDifficultyQuestions[Math.floor(Math.random() * mediumDifficultyQuestions.length)];
 
       setQuizData({
         question: randomQuestion.question.text,
