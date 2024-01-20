@@ -63,7 +63,12 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
     try {
       const response = await fetch('https://the-trivia-api.com/v2/questions');
       const data = await response.json();
-
+  
+      if (!data || data.length === 0) {
+        console.error('No questions found in API response.');
+        return;
+      }
+  
       let filteredQuestions;
       if (difficulty === 'easy') {
         filteredQuestions = data.filter((question) => question.difficulty === 'easy');
@@ -72,15 +77,30 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
       } else if (difficulty === 'hard') {
         filteredQuestions = data.filter((question) => question.difficulty === 'hard');
       }
-
-      const randomQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-
+  
+      if (!filteredQuestions || filteredQuestions.length === 0) {
+        console.error('No questions found for the selected difficulty.');
+        return;
+      }
+  
+      let randomQuestion;
+      do {
+        randomQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
+      } while (!randomQuestion);
+  
+      if (!randomQuestion.question || !randomQuestion.incorrectAnswers || !randomQuestion.correctAnswer) {
+        console.error('Invalid question structure in API response:', randomQuestion);
+       
+        fetchData();
+        return;
+      }
+  
       setQuizData({
         question: randomQuestion.question.text,
         answers: randomQuestion.incorrectAnswers.concat(randomQuestion.correctAnswer),
         correctAnswer: randomQuestion.correctAnswer,
       });
-
+  
       setSelectedAnswer(null);
       setSelected(false);
       setTimeLeft(null);
@@ -88,6 +108,7 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
       console.error('Error fetching quiz data:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
