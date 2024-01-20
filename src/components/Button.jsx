@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
+function Button({ title, onClick, difficulty }) {
+  const handleClick = () => {
+    onClick(difficulty);
+  };
 
-function Button({title,onClick}) {
-    return (
-
-        <>
-            <button className='buttonNext' onClick={onClick}>{title}</button>
-        </>
-
-      );
+  return (
+    <>
+      <button className='buttonNext' onClick={handleClick}>
+        {title}
+      </button>
+    </>
+  );
 }
 
 export default Button;

@@ -87,6 +87,9 @@ body {
   justify-content: center;
   margin:15% auto;
 }
+.joinGameContainer .buttonNext {
+  margin: 10px;
+}
 .textField {
   border: none;
   outline: none;

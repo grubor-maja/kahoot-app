@@ -12,13 +12,16 @@ function App() {
   const [username, setUsername] = useState('');
   const [result, setResult] = useState(0);
   const [timeLeftMultiplier, setTimeLeftMultiplier] = useState(10); // Dodajte timeLeftMultiplier
-
+  const [difficultyVariable, setDifficultyVariable] = useState('');
   const handleResult = (newResult) => {
     setResult(newResult);
   };
 
   const resetResult = () => {
     setResult(0);
+  };
+  const handleDifficulty = (newDifficluty) => {
+    setDifficultyVariable(newDifficluty);
   };
 
   const handleUsername = (newUsername) => {
@@ -30,10 +33,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/joingame" element={<JoinGamePage onUsernameSubmit={handleUsername} />} />
-        <Route path="/startgame" element={<StartGame username={username} />} />
+        <Route path="/startgame" element={<StartGame username={username} handleDifficulty = {handleDifficulty} />} />
         <Route
           path="/questions"
-          element={<QuestionsPage handleResult={handleResult} result={result} timeLeftMultiplier={timeLeftMultiplier} />}
+          element={<QuestionsPage handleResult={handleResult} result={result} timeLeftMultiplier={timeLeftMultiplier} difficulty={difficultyVariable} />}
         />
         <Route
           path="/results"

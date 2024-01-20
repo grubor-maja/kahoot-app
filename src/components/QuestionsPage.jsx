@@ -4,7 +4,7 @@ import Button from './Button';
 import useCountdown from './useCountdown';
 import Counter from './Counter';
 
-const QuestionsPage = ({ result, handleResult, timeLeftMultiplier }) => {
+const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty }) => {
   const [quizData, setQuizData] = useState({
     question: '',
     answers: [],
@@ -42,36 +42,38 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier }) => {
 
   const handleAnswerClick = (answer) => {
     if (!selected) {
-      
       setSelectedAnswer(answer);
       setSelected(true);
-      
-      console.log('Time left: '+time);
+
+      console.log('Time left: ' + time);
       let scoreMultiplier = answer === quizData.correctAnswer ? 10 : 0;
-      console.log('Score multiplier:   '+scoreMultiplier);
+      console.log('Score multiplier: ' + scoreMultiplier);
       pauseCountdown();
-  
-    
-  
+
       const roundResult = time * scoreMultiplier;
-      console.log("Broj poena za ovaj odgovor: "+roundResult);
+      console.log('Broj poena za ovaj odgovor: ' + roundResult);
       handleResult(result + roundResult);
     } else {
       console.log('Vec ste izabrali odgovor');
       window.alert('Vec ste izabrali odgovor');
     }
   };
-  
 
   const fetchData = async () => {
     try {
       const response = await fetch('https://the-trivia-api.com/v2/questions');
       const data = await response.json();
 
-      const mediumDifficultyQuestions = data.filter(question => question.difficulty === 'medium' || question.difficulty === 'easy');
+      let filteredQuestions;
+      if (difficulty === 'easy') {
+        filteredQuestions = data.filter((question) => question.difficulty === 'easy');
+      } else if (difficulty === 'medium') {
+        filteredQuestions = data.filter((question) => question.difficulty === 'medium');
+      } else if (difficulty === 'hard') {
+        filteredQuestions = data.filter((question) => question.difficulty === 'hard');
+      }
 
-
-      const randomQuestion = mediumDifficultyQuestions[Math.floor(Math.random() * mediumDifficultyQuestions.length)];
+      const randomQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
 
       setQuizData({
         question: randomQuestion.question.text,
@@ -90,15 +92,14 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier }) => {
   useEffect(() => {
     fetchData();
     resetCountdown();
-  }, [brojac, resetCountdown]);
+  }, [brojac, resetCountdown, difficulty]);
 
   return (
     <>
-      <div className='questionBody'>
-        <h2 className='questionHeading'>
+      <div className="questionBody">
+        <h2 className="questionHeading">
           {quizData.question}
-          <Counter brojac={brojac}></Counter>{' '}
-          <div>{time}s</div>
+          <Counter brojac={brojac}></Counter> <div>{time}s</div>
         </h2>
       </div>
 
