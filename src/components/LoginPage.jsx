@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-function LoginPage({onUsernameSubmit}) {
+function LoginPage({ onUsernameSubmit, onAdminLogin }) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -13,6 +13,12 @@ function LoginPage({onUsernameSubmit}) {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSuccessfulLogin = (token) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', formData.name);
+        console.log('Sacuvao sam ti token');
     };
 
     const handleClick = async () => {
@@ -29,22 +35,36 @@ function LoginPage({onUsernameSubmit}) {
             });
 
             if (response.ok) {
-                
                 console.log(formData.name);
                 const data = await response.json();
-                onUsernameSubmit(data.user.name);
+                // Proverite da li je onUsernameSubmit funkcija definisana pre poziva
+                if (typeof onUsernameSubmit === 'function') {
+                    onUsernameSubmit(data.user.name);
+                }
+                handleSuccessfulLogin(data.access_token);
                 console.log('logovanje uspešno:', data);
-                navigate('/startgame');
+                if (data.user.role === 'admin') {
+                    // Proverite da li je onAdminLogin funkcija definisana pre poziva
+                    if (typeof onAdminLogin === 'function') {
+                        onAdminLogin(data.access_token);
+                    }
+                    navigate('/admin/startgame');
+                } else {
+                    navigate('/startgame');
+                }
+
             } else {
                 const errorData = await response.json();
                 console.error('logovanje nije uspelo:', errorData);
-                // Dodaj logiku za prikazivanje poruke o grešci
             }
         } catch (error) {
             console.error('Greška pri logovanju:', error);
         }
     };
 
+    const handleClick3 = () => {
+        navigate('/forgotpassword');
+    }
     return (
         <>
             <div className="joinGameContainer">
@@ -54,7 +74,8 @@ function LoginPage({onUsernameSubmit}) {
                 <br />
                 <input type="password" name="password" className="textField" value={formData.password} onChange={handleChange} placeholder="Password" />
                 <br />
-                <Button onClick={handleClick} title={'Login'}></Button>
+                <Button onClick={handleClick} title={'Login'} />
+                <Button onClick={handleClick3} title={'Forgot password'} />
             </div>
         </>
     );

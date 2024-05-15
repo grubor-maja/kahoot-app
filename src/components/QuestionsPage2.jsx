@@ -3,22 +3,29 @@ import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 import useCountdown from './useCountdown';
 import Counter from './Counter';
+import { useLocation } from 'react-router-dom';
 
-const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty }) => {
+const QuestionsPage2 = ({ result, handleResult, timeLeftMultiplier,difficulty, roomName,username }) => {
   const [quizData, setQuizData] = useState({
     question: '',
     answers: [],
     correctAnswer: '',
   });
+  const location = useLocation();
+  const {room} = location.state;
+
 
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [selected, setSelected] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null);
   const [brojac2,setBrojac2] = useState(0);
 
-
   const [brojac, setBrojac] = useState(1);
   const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+}
 
   const handleCountdownFinish = () => {
     if (!selected) {
@@ -31,6 +38,8 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
 
   const { time, reset: resetCountdown, pause: pauseCountdown } = useCountdown(10, handleCountdownFinish);
 
+
+
   const handleNextClick = () => {
     setBrojac((prevBrojac) => prevBrojac + 1);
     resetCountdown();
@@ -38,6 +47,12 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
     if (brojac < 10) {
       setNextQuestion();
     } else {
+      console.log(roomName);
+      console.log(username);
+      console.log(result);
+      localStorage.setItem('user',username);
+      localStorage.setItem('result',result);
+      localStorage.setItem('naziv_sobe',roomName);
       navigate('/results', { state: { timeLeft } });
     }
   };
@@ -61,30 +76,33 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
     }
   };
 
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/sobe/random');
-      const data = await response.json();
-      
-      // Izvadi prvo pitanje iz prve sobe (pretpostavljamo da postoji samo jedna soba)
-      const firstRoom = data.soba;
-      const firstQuestion = firstRoom.pitanja[brojac2];
-      setBrojac2(brojac2+1);
   
-      // Postavi stanje quizData na osnovu prvog pitanja
-      setQuizData({
-        question: firstQuestion.tekst_pitanja,
-        answers: firstQuestion.odgovori.map(odgovor => odgovor.tekst_odgovora),
-        correctAnswer: firstQuestion.odgovori.find(odgovor => odgovor.tacan_odgovor === 1).tekst_odgovora
-      });
+
+
+  const fetchData = async (sobaCode) => {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/sobe/${roomName}/quiz`);
+        const data = await response.json();
+
+        // Izvadi prvo pitanje iz prve sobe (pretpostavljamo da postoji samo jedna soba)
+        const firstRoom = data.soba;
+        const firstQuestion = firstRoom.pitanja[brojac-1];
+
+        // Postavi stanje quizData na osnovu prvog pitanja
+        setQuizData({
+            question: firstQuestion.tekst_pitanja,
+            answers: firstQuestion.odgovori.map(odgovor => odgovor.tekst_odgovora),
+            correctAnswer: firstQuestion.odgovori.find(odgovor => odgovor.tacan_odgovor === 1).tekst_odgovora
+        });
+        setBrojac2(brojac2+1);
     } catch (error) {
-      console.error('Error fetching quiz data:', error);
+        console.error('Error fetching specific quiz data:', error);
     }
-  };
-  const handleBack = () => {
-    navigate(-1);
-}
+};
+
+
+
+  
   
   const setNextQuestion = () => {
     setSelectedAnswer(null);
@@ -99,7 +117,7 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
 
   return (
     <>
-    <button onClick={handleBack} className='backButton'>Back</button>
+      <button onClick={handleBack} className='backButton'>Back</button>
       <div className="questionBody">
         <h2 className="questionHeading">
           {quizData.question}
@@ -125,4 +143,4 @@ const QuestionsPage = ({ result, handleResult, timeLeftMultiplier, difficulty })
   );
 };
 
-export default QuestionsPage;
+export default QuestionsPage2;
