@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import JoinGamePage from './components/JoinGamePage';
+import RegisterPage from './components/RegisterPage';
 import HomePage from './components/HomePage';
 import QuestionsPage from './components/QuestionsPage';
 import StartGame from './components/StartGame';
 import ResultsPage from './components/ResultsPage';
 import './App.css';
+import LoginPage from './components/LoginPage';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -32,7 +33,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/joingame" element={<JoinGamePage onUsernameSubmit={handleUsername} />} />
+        <Route path="/register" element={<RegisterPage onUsernameSubmit={handleUsername} />} />
+        <Route path="/login" element={<LoginPage onUsernameSubmit={handleUsername} />} />
         <Route path="/startgame" element={<StartGame username={username} handleDifficulty = {handleDifficulty} />} />
         <Route
           path="/questions"
